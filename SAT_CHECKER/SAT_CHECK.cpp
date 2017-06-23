@@ -32,8 +32,8 @@ int main()
 	char temp2,mychar;
 	char s[200];
 	FILE *taskfile,*solnfile;
-	string mytaskfile;								//input dimacs file here
-	string mysolnfile;								//input soln file here
+	string mytaskfile;							//input dimacs file here
+	string mysolnfile;							//input soln file here
 
 	taskfile = fopen(mytaskfile.c_str(),"r");
 	if(taskfile == NULL)
