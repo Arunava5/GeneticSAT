@@ -61,7 +61,7 @@ int main()
 	fscanf(taskfile,"%c",&mychar);	
 						
 	fscanf(taskfile,"%d",&n);       						   //no of variables
-	fscanf(taskfile,"%d",&m);								   //no of clauses
+	fscanf(taskfile,"%d",&m);							   //no of clauses
 	clause.resize(m);
 	
 	for(i = 0 ; i < m ; i++)
