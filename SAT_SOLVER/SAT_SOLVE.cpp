@@ -17,7 +17,7 @@ int POP_SIZE;
 int MAX_GEN;
 int n,ncopy,m;
 int no_of_elites;
-int crosslen;										//used only for fixed-length crossover
+int crosslen;									//used only for fixed-length crossover
 vector< vector<int> > clause;
 vector<int> reqd_val;
 vector<bool> already_done;
@@ -26,9 +26,9 @@ vector< pair<int,int> > elites;
 int already_satisfied;
 string outputname;
 FILE *outputfile;
-map<int,int> m1;										//coordinate compression
+map<int,int> m1;								//coordinate compression
 
-struct mychromo                        				//structure of a chromosome
+struct mychromo                        						//structure of a chromosome
 {
 	string soln;                       
 	int fitness;
@@ -62,11 +62,11 @@ void pre()
 		{
 			if(clause[i][j] < 0)
 			{
-				solve_clause[ abs(clause[i][j]) - 1 ].first.push_back(i);            //first represents the negative literal
+				solve_clause[ abs(clause[i][j]) - 1 ].first.push_back(i);  	   //first represents the negative literal
 			}
 			else
 			{
-				solve_clause[ abs(clause[i][j]) - 1 ].second.push_back(i);		    //second represents the positive literal
+				solve_clause[ abs(clause[i][j]) - 1 ].second.push_back(i);	   //second represents the positive literal
 			}
 		}
 	}
@@ -102,7 +102,7 @@ void mapping()
 	n = m1.size();
 }
 
-string random_pop(int chromo_len)       		//random chromosome generator
+string random_pop(int chromo_len)       			//random chromosome generator
 {
 	string x="";
 	for(int i=0;i<chromo_len;i++)
@@ -110,7 +110,7 @@ string random_pop(int chromo_len)       		//random chromosome generator
 	return x;
 }
 
-int calc_fitness(string &curr_soln) 			//assigns fitness to a chromosome
+int calc_fitness(string &curr_soln) 				//assigns fitness to a chromosome
 {
 	int init_fitness = 0;
 	int j;
@@ -235,7 +235,7 @@ void fixed_len_crossover(string &x, string &y)
 	}
 }
 
-void multiple_bit_flip_random(string &x)								//mutation function 1
+void multiple_bit_flip_random(string &x)							//mutation function 1
 {
 	for(int i = 0; i < n; i++)
 	{
@@ -275,7 +275,7 @@ void multiple_bit_flip_greedy(string &x)							//mutation function 3
 	}
 }
 
-void single_bit_flip_greedy(string &x)							//mutation function 4
+void single_bit_flip_greedy(string &x)							        //mutation function 4
 {
 	int max_fitness = calc_fitness(x);
 	for(int i = 0 ; i < n ; i++)
@@ -289,7 +289,7 @@ void single_bit_flip_greedy(string &x)							//mutation function 4
 	}
 }
 
-void single_bit_flip_greedymax(string &x)
+void single_bit_flip_greedymax(string &x)							//mutation function 5
 {
 	int max_fitness = calc_fitness(x);
 	int curr_fitness;
@@ -309,7 +309,7 @@ void single_bit_flip_greedymax(string &x)
 	(x[index] == '0')? x[index] = '1' : x[index] = '0';
 }
 
-void flipGA(string &x)
+void flipGA(string &x)										//mutation function 6
 {
 	int max_fitness = calc_fitness(x);
 	int curr_fitness;
@@ -334,7 +334,7 @@ void flipGA(string &x)
 	}
 }
 
-string Roulette(int total_fitness, vector< mychromo > &gen)  //Roulette-Wheel selector
+string Roulette(int total_fitness, vector< mychromo > &gen)  					//Roulette-Wheel selector
 {
 	int reqd_fitness = (int)(random_gen() * total_fitness);
 	
@@ -387,7 +387,7 @@ int Trivial()
 	return -1;
 }
 
-vector< pair<int,bool> > unit_literal(vector< pair<int,bool> > &final_sol)
+vector< pair<int,bool> > unit_literal(vector< pair<int,bool> > &final_sol)			//Unit Literal reduction
 {
 	bool unit_literal = true;
 	bool marked[m];
@@ -557,15 +557,15 @@ void GeneticAlgo()
 	no_of_elites = ELITISM * POP_SIZE;
 	if(no_of_elites % 2 == 1)
 	no_of_elites++;
-	vector<mychromo> old_gen(POP_SIZE);			   //container for the current population
-	vector<mychromo> new_gen;			   		   //container for the next generation
+	vector<mychromo> old_gen(POP_SIZE);			  		  //container for the current population
+	vector<mychromo> new_gen;			   			  //container for the next generation
 	int curr_max = 0;
 	int allmax = 0;
 	int curr_gen = 0;
 	int last_gen ;
 	int tot_gen  = 0;
 	int tot_max;
-//	pre();											//uncomment if using greedy_crossover
+//	pre();									   //uncomment if using greedy_crossover
 	while(1)
 	{
 	for(int i = 0 ; i < POP_SIZE ; i++)
@@ -617,36 +617,36 @@ void GeneticAlgo()
 		new_gen[counter] = old_gen[ elites[counter].second ];
 		while(counter < POP_SIZE)
 		{
-			string firstchild  = Roulette(total_fitness, old_gen); //fittest individual selection
+			string firstchild  = Roulette(total_fitness, old_gen); 		//fittest individual selection
 			string secondchild = Roulette(total_fitness, old_gen);
 	
-			single_point_crossover(firstchild,secondchild);       //selects a pivot and exchanges the substring from [pivot to n-1]
+			single_point_crossover(firstchild,secondchild);       		//selects a pivot and exchanges the substring from [pivot to n-1]
 			
-//			two_point_crossover(firstchild,secondchild);		  //selects two pivots and exchanges the substring contained within the two pivots
+//			two_point_crossover(firstchild,secondchild);		        //selects two pivots and exchanges the substring contained within the two pivots
 			
-//			uniform_crossover(firstchild,secondchild);			  //swaps every alternatig bit
+//			uniform_crossover(firstchild,secondchild);		        //swaps every alternatig bit
 			
-//			greedy_crossover(firstchild,secondchild);			  //exchanges substring that has maximum sum of satisfying clauses
+//			greedy_crossover(firstchild,secondchild);			//exchanges substring that has maximum sum of satisfying clauses
 			
-//			fixed_len_crossover(firstchild,secondchild);		  //slides a window of length = crosslen and exchanges that substring within the window which results in maximum fitness
+//			fixed_len_crossover(firstchild,secondchild);		        //slides a window of length = crosslen and exchanges that substring within the window which results in maximum fitness
 			
 //			multiple_bit_flip_random(firstchild);				//Flips all the bits,
 //			multiple_bit_flip_random(secondchild);				//dependent on MUTATION_RATE	
 			
-//			single_bit_flip_random(firstchild);					//Flips a single random bit,
+//			single_bit_flip_random(firstchild);				//Flips a single random bit,
 //			single_bit_flip_random(secondchild);				//dependent on MUTATION_RATE
 		
 			multiple_bit_flip_greedy(firstchild);				//Flips all those bits by which fitness increases
 			multiple_bit_flip_greedy(secondchild);				//independent of MUTATION_RATE 
 			
-//			single_bit_flip_greedy(firstchild);					//Flips a single bit by which fitness increases
+//			single_bit_flip_greedy(firstchild);				//Flips a single bit by which fitness increases
 //			single_bit_flip_greedy(secondchild);				//independent of MUTATION_RATE
 		
 //			single_bit_flip_greedymax(firstchild);				//Flips a single bit by which fitness increases the most
 //			single_bit_flip_greedymax(secondchild);				//independent of MUTATION_RATE
 			
-//			flipGA(firstchild);									//Flips bits from left to right iteratively till fitness can no further be increased
-//			flipGA(secondchild);								//independent of MUTATION_RATE
+//			flipGA(firstchild);						//Flips bits from left to right iteratively till fitness can no further be increased
+//			flipGA(secondchild);						//independent of MUTATION_RATE
 			
 			new_gen[counter++] = mychromo(firstchild,0);
 			new_gen[counter++] = mychromo(secondchild,0);
@@ -669,7 +669,7 @@ void GeneticAlgo()
 			printf("\nThe formula isn't satisfiable\n");
 			fprintf(outputfile,"The formula is not satisfiable!\n");
 			fprintf(outputfile,"Maximum no of clauses satisfiable is -> %d",allmax+already_satisfied);
-//			fclose(outputfile);		
+			//fclose(outputfile);		
 			return ;
 			}
 			else
@@ -684,19 +684,19 @@ void GeneticAlgo()
 
 int main()
 {
-	srand((int)time(NULL));                       		 //seeding the random generator
+	srand((int)time(NULL));                       		 			//seeding the random generator
 	clock_t start_t,end_t;
 	char mychar,s[200];
 	int temp;
 	double total_time;
 	FILE *readfile;
 	start_t = clock();	
-	string filename;									//insert filename here
+	string filename;								//insert filename here
     string outputname = filename + "_result.txt";
 	outputfile = fopen(outputname.c_str(),"w");	
 	printf("%s\n",filename.c_str());	
 	freopen(filename.c_str(),"r",stdin);   
-	readfile = fopen(filename.c_str(),"r");       		//input file (should be in DIMACS format)
+	readfile = fopen(filename.c_str(),"r");       					//input file (should be in DIMACS format)
 	if(readfile == NULL)
 	{
 	printf("\nFile does not exist!\n");
@@ -715,8 +715,8 @@ int main()
 	fscanf(readfile,"%s",&s);
 	fscanf(readfile,"%c",&mychar);	
 						
-	fscanf(readfile,"%d",&n);       						   //no of variables
-	fscanf(readfile,"%d",&m);								   //no of clauses
+	fscanf(readfile,"%d",&n);       						 //no of variables
+	fscanf(readfile,"%d",&m);							 //no of clauses
 //	fprintf(outputfile,"The no of variables are -> %d\n",n);
 //	fprintf(outputfile,"The no of clauses are -> %d\n\n",m);
 	already_done.resize(n,false);
@@ -736,9 +736,9 @@ int main()
 	}
 	fclose(readfile);
 	bool found = false;
-	int result = Trivial();				//if no such clause appears such that all of it's constituent
-	if(result == 0)						//literals are true(false) , then the formula can be satisfied
-	{									//by assigning all the variables to false(true).
+	int result = Trivial();						//if no such clause appears such that all of it's constituent
+	if(result == 0)							//literals are true(false) , then the formula can be satisfied
+	{								//by assigning all the variables to false(true).
 		found = true;
 		fprintf(outputfile,"The formula is satisfiable!\n");
 /*		for(int j = 0 ; j < n ; j++)
@@ -761,7 +761,7 @@ int main()
 	{
 	vector< pair<int,bool> > final_sol;
 	already_satisfied = 0;
-	unit_literal(final_sol);              										//Unit Literal reduction
+	unit_literal(final_sol);              							
 	printf("After unit literal reduction the no of clauses is -> %d\n\n",m);	
 	pure_literal(final_sol);													//Pure Literal reduction
 	printf("After pure literal reduction the no of clauses is -> %d\n\n",m);
@@ -777,7 +777,7 @@ int main()
 	reqd_val.clear();
 	already_done.clear();
 	m1.clear();
-//	solve_clause.clear();										//uncomment if using greedy_crossover
+//	solve_clause.clear();									//uncomment if using greedy_crossover
 	end_t = clock();
 	total_time = (double)(end_t - start_t)/CLOCKS_PER_SEC;
 //	fprintf(outputfile,"\nTime taken -> %.6lf",total_time);
