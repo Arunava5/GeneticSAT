@@ -691,12 +691,11 @@ int main()
 	double total_time;
 	FILE *readfile;
 	start_t = clock();	
-	string filename;								//insert filename here
-    string outputname = filename + "_result.txt";
+	string filename;								//input file (should be in DIMACS format)
+    	string outputname = filename + "_result.txt";
 	outputfile = fopen(outputname.c_str(),"w");	
-	printf("%s\n",filename.c_str());	
-	freopen(filename.c_str(),"r",stdin);   
-	readfile = fopen(filename.c_str(),"r");       					//input file (should be in DIMACS format)
+	printf("%s\n",filename.c_str());
+	readfile = fopen(filename.c_str(),"r");       					
 	if(readfile == NULL)
 	{
 	printf("\nFile does not exist!\n");
