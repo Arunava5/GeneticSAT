@@ -8,6 +8,8 @@ Team Members -
 1. Arunava Bhattacharjee
 2. Prabal Pratap Singh Chauhan
 
+(Under the guidance of Dr. Pinaki Mitra, Associate Professor, Department of CSE, IIT Guwahati)
+
 It uses genetic algorithms to find solutions to SAT instances. The
 clause length is not restricted to any single value, so the problem
 statement need not necessary  be in k-SAT form.
