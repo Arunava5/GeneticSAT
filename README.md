@@ -32,3 +32,5 @@ POP_SIZE : The total no of individuals in any generation.
 LIMIT : Specifies a threshold, if no improvement occurs for a given span
 of generations (specified by LIMIT), then a new fresh random population
 is generated.
+
+Research Paper: https://astesj.com/v02/i04/p16/
